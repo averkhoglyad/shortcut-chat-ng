@@ -1,0 +1,22 @@
+<div class="top">
+  Chat #{{ currentChat()?.id }}
+</div>
+
+<div class="messages border border-surface" cdkVirtualScrollingElement>
+  <cdk-virtual-scroll-viewport  orientation="vertical" itemSize="50">
+    <div *cdkVirtualFor="let item of messages(); let odd = odd; trackBy: trackingMessage"
+         class="items-center p-2"
+         [ngClass]="{ 'bg-surface-100 dark:bg-surface-700': odd, 'font-bold': currentChat() == item.id }">
+      {{ item | json }}
+    </div>
+  </cdk-virtual-scroll-viewport>
+</div>
+
+<div class="bottom border border-surface">
+  <p-inputgroup styleClass="border-none w-full">
+    <textarea [(ngModel)]="message" class="block border-none w-full" rows="1" pTextarea [autoResize]="true"></textarea>
+    <p-inputgroup-addon styleClass="border-none items-end">
+      <p-button icon="pi pi-send" variant="text" rounded severity="info" (click)="sendMessage(message)"/>
+    </p-inputgroup-addon>
+  </p-inputgroup>
+</div>

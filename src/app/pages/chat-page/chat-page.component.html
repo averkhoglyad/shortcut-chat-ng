@@ -1,0 +1,34 @@
+<div class="chats-page">
+  <div class="sidebar">
+    <div class="top">
+      Chats:
+    </div>
+    <div class="list border border-surface" cdkVirtualScrollingElement>
+      <cdk-virtual-scroll-viewport orientation="vertical" itemSize="50">
+        <a *cdkVirtualFor="let item of chats(); let odd = odd; trackBy: trackingChat"
+           class="block pointer items-center p-2"
+           [ngClass]="{ 'bg-surface-100 dark:bg-surface-700': odd, 'font-bold': currentChat() == item.id }"
+           style="height: 50px;"
+           routerLink="/chat/{{ item.id }}" routerLinkActive="active">
+          {{ item.name }}
+        </a>
+      </cdk-virtual-scroll-viewport>
+
+      @if (hasMore()) {
+        @if (loading()) {
+          <div class="cursor-pointer items-center p-2 text-center" style="height: 50px;">
+            <p-skeleton styleClass="center mb-2"/>
+          </div>
+        } @else {
+          <div class="cursor-pointer items-center p-2 text-center" style="height: 50px;"
+               (click)="loadNext()">
+            Next
+          </div>
+        }
+      }
+    </div>
+  </div>
+  <div class="view-section">
+    <router-outlet/>
+  </div>
+</div>

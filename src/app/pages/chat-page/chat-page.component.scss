@@ -1,0 +1,33 @@
+.chats-page {
+  & {
+    position: absolute;
+    bottom: 0;
+    top: var(--header-height);
+    width: 100%;
+    max-width: var(--main-content-max-width);
+  }
+
+  .sidebar {
+    & {
+      width: 300px
+    }
+    .top {
+      height: 50px;
+    }
+    .list {
+      position: absolute;
+      bottom: 0;
+      top: 50px;
+      width: 300px;
+    }
+  }
+
+  .view-section {
+    position: absolute;
+    bottom: 0;
+    left: 300px;
+    right: 0;
+    top: 0;
+  }
+}
+

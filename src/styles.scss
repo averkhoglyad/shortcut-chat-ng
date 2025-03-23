@@ -1,0 +1,9 @@
+@use "tailwindcss";
+@use "primeicons/primeicons.css";
+@plugin "tailwindcss-primeui";
+@tailwind utilities;
+
+:root {
+  --header-height: 60px;
+  --main-content-max-width: 1200px;
+}

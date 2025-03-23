@@ -1,0 +1,19 @@
+.top {
+  height: 50px;
+}
+
+.messages {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+  top: 50px;
+}
+
+.bottom {
+  min-height: 50px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
