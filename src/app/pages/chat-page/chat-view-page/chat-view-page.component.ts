@@ -81,7 +81,7 @@ export class ChatViewPageComponent {
     this.parent.chatId = chatId;
   }
 
-  trackingMessage(index: number, message: Message): number | undefined {
+  trackingMessage(index: number, message: Message): string | undefined {
     return message.id;
   }
 
@@ -92,8 +92,8 @@ export class ChatViewPageComponent {
 
 function randomMessage() {
   const message = new Message();
-  message.id = -1;
-  message.author = new Ref(-1);
+  message.id = '-1';
+  message.author = new Ref('-1');
   message.chat = new Ref('-1');
   message.text = "Some message"
   return message;

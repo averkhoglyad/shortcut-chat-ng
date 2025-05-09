@@ -45,6 +45,7 @@ export class ChatPageComponent implements OnInit {
 
   constructor(@Inject(CHAT_SERVICE)
               private readonly chatService: ChatService) {
+    // TODO: move to repository/store
     this.chats$ = this.tokens$
       .pipe(
         filter(it => it !== undefined),
@@ -52,7 +53,7 @@ export class ChatPageComponent implements OnInit {
         switchMap(token => this.loadNextPortion(token)),
         tap(it => this.lastToken = it.nextToken),
         tap(it => this.hasMore.update(() => !!it.nextToken)),
-        map(it => this.accumulator = this.accumulator.concat(it.items)),
+        map(it => this.accumulator = this.accumulator.concat(it.data)),
       );
 
     this.chats = toSignal(this.chats$);

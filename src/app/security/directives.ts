@@ -5,13 +5,16 @@ import { Principal } from "./data";
 @Directive({
   selector: '[isAuthorized]'
 })
-export class IsAuthorized {
+export class IsAuthorized implements OnInit {
 
-  constructor(private templateRef: TemplateRef<any>,
-              private viewContainer: ViewContainerRef,
+  constructor(private readonly templateRef: TemplateRef<any>,
+              private readonly viewContainer: ViewContainerRef,
               @Inject(SECURITY_SERVICE)
-              private securityService: SecurityService) {
-    securityService.observe()
+              private readonly securityService: SecurityService) {
+  }
+
+  ngOnInit(): void {
+    this.securityService.observe()
       .subscribe(principal => {
         this.viewContainer.clear();
         if (!!principal) {
@@ -24,13 +27,16 @@ export class IsAuthorized {
 @Directive({
   selector: '[isAnonymous]'
 })
-export class IsAnonymous {
+export class IsAnonymous implements OnInit {
 
   constructor(private templateRef: TemplateRef<any>,
               private viewContainer: ViewContainerRef,
               @Inject(SECURITY_SERVICE)
               private securityService: SecurityService) {
-    securityService.observe()
+  }
+
+  ngOnInit(): void {
+    this.securityService.observe()
       .subscribe(principal => {
         this.viewContainer.clear();
         if (!principal) {
@@ -48,10 +54,10 @@ export class HasAuthority implements OnInit {
   private authority: string | null = null;
   private principal: Principal | null = null;
 
-  constructor(private templateRef: TemplateRef<any>,
-              private viewContainer: ViewContainerRef,
+  constructor(private readonly templateRef: TemplateRef<any>,
+              private readonly viewContainer: ViewContainerRef,
               @Inject(SECURITY_SERVICE)
-              private securityService: SecurityService) {
+              private readonly securityService: SecurityService) {
   }
 
   ngOnInit(): void {

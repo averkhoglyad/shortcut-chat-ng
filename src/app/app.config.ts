@@ -4,23 +4,27 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
-import { SECURITY_SERVICE, StubSecurityServiceImpl, SecurityServiceImpl } from './security/security.service';
 import { HasAuthority, IsAnonymous, IsAuthorized } from './security/filters';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 import Aura from '@primeng/themes/aura';
-import { CHAT_SERVICE, StubChatServiceImpl } from './service/chat.service';
-
+import { CHAT_SERVICE, ChatServiceImpl } from './service/chat.service';
+import { SECURITY_SERVICE, SecurityServiceImpl } from './security/security.service';
+import { USER_SERVICE, UserServiceImpl } from './service/user.service';
+import { AUTH_SERVICE, AuthServiceImpl } from './service/auth.service';
+import { HttpSecurityInterceptor } from './http/HttpSecurityInterceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    { provide: SECURITY_SERVICE, useClass: StubSecurityServiceImpl },
-    // { provide: SECURITY_SERVICE, useClass: SecurityServiceImpl },
-    { provide: CHAT_SERVICE, useClass: StubChatServiceImpl },
+    { provide: SECURITY_SERVICE, useClass: SecurityServiceImpl },
+    { provide: CHAT_SERVICE, useClass: ChatServiceImpl },
+    { provide: USER_SERVICE, useClass: UserServiceImpl },
+    { provide: AUTH_SERVICE, useClass: AuthServiceImpl },
     { provide: IsAnonymous },
     { provide: IsAuthorized },
     { provide: HasAuthority },
-    provideHttpClient(),
+    { provide: HTTP_INTERCEPTORS, useClass: HttpSecurityInterceptor, multi: true },
+    provideHttpClient(withInterceptorsFromDi()),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withComponentInputBinding()),
     provideAnimationsAsync(),

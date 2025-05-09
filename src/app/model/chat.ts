@@ -7,18 +7,18 @@ export class Chat extends Identified<string> {
 
 }
 
-export class Participant extends Identified<number> {
+export class Participant extends Identified<string> {
 
   name: string = '';
   email: string = '';
 
 }
 
-export class Message extends Identified<number> {
+export class Message extends Identified<string> {
 
   chat!: Ref<string, Chat>;
-  author!: Ref<number, Participant>;
+  author!: Ref<string, Participant>;
   text: string = '';
-  // createdAt: Date;
+  createdAt!: Date;
 
 }

@@ -1,24 +1,26 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject, Inject } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { SECURITY_SERVICE, SecurityService } from '../../security/security.service';
 import { Principal } from '../../security/data';
 import { Router } from '@angular/router';
+import { AUTH_SERVICE, AuthService } from '../../service/auth.service';
 
 @Component({
   imports: [ButtonModule, InputTextModule, FormsModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  templateUrl: './login-page.component.html',
+  styleUrl: './login-page.component.scss'
 })
-export class LoginComponent {
+export class LoginPageComponent {
 
-  email: string = '';
   process: boolean = false;
 
   constructor(private readonly router: Router,
+              @Inject(AUTH_SERVICE)
+              private readonly authService: AuthService,
               @Inject(SECURITY_SERVICE)
-              private readonly securityService: SecurityService) {
+              securityService: SecurityService) {
     securityService.current()
       .subscribe(it => {
         if (it != null) {
@@ -28,21 +30,20 @@ export class LoginComponent {
   }
 
   login(username: string) {
-    const me = this;
     this.process = true;
-    this.securityService
-      .authenticate(username)
+    this.authService
+      .authorizeByEmail(username)
       .subscribe({
-        next(res: Principal) {
+        next: (res: Principal) => {
           console.log("Auth success: ", res);
-          me.router.navigate(['/chat']);
+          this.router.navigate(['/']);
         },
-        error(err: any) {
+        error: (err: any) => {
           console.log("Auth error: ", err)
           alert("Authentication failed");
         },
-        complete() {
-          me.process = false;
+        complete: () => {
+          this.process = false;
         }
       });
   }
