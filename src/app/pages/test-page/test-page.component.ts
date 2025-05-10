@@ -85,13 +85,17 @@ export class TestPageComponent implements OnInit, OnDestroy {
         filter(evt => evt['@type'] == 'ChatCreated'),
         map(evt => Object.assign(new Chat(), evt))
       )
-      .subscribe(chat => this.chats.update(arr => arr.concat([chat])));
+      .subscribe(chat => this.chats
+        .update(arr => arr.some(it => it.id === chat.id) ? arr : arr.concat([chat])));
+
     this.events$
       .pipe(
         filter(evt => evt['@type'] == 'MessagePublished'),
         map(evt => Object.assign(new Message(), evt))
       )
-      .subscribe(message => this.messages.update(arr => arr.concat([message])));
+      .subscribe(message => this.messages
+        .update(arr => arr.some(it => it.id === message.id) ? arr : arr.concat([message])));
+
     this.events$
       .pipe(
         filter(evt => evt['@type'] == 'DebugEvent'),

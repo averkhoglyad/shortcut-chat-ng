@@ -34,7 +34,8 @@ export const routes: Routes = [
   },
   {
     path: 'test',
-    component: TestPageComponent
+    component: TestPageComponent,
+    canActivate: [IsAuthorized],
   },
   {
     path: 'error/401',

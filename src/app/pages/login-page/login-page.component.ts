@@ -1,4 +1,4 @@
-import { Component, inject, Inject } from '@angular/core';
+import { Component, inject, Inject, signal } from '@angular/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -14,7 +14,7 @@ import { AUTH_SERVICE, AuthService } from '../../service/auth.service';
 })
 export class LoginPageComponent {
 
-  process: boolean = false;
+  process = signal(false);
 
   constructor(private readonly router: Router,
               @Inject(AUTH_SERVICE)
@@ -30,20 +30,18 @@ export class LoginPageComponent {
   }
 
   login(username: string) {
-    this.process = true;
+    this.process.set(true);
     this.authService
       .authorizeByEmail(username)
       .subscribe({
         next: (res: Principal) => {
           console.log("Auth success: ", res);
-          this.router.navigate(['/']);
+          this.router.navigate(['/test']);
         },
         error: (err: any) => {
           console.log("Auth error: ", err)
           alert("Authentication failed");
-        },
-        complete: () => {
-          this.process = false;
+          this.process.set(false)
         }
       });
   }

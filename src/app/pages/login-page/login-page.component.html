@@ -3,11 +3,16 @@
     <label for="email" class="block font-semibold mb-2">
       Email <sup class="text-red-600">*</sup>
     </label>
-    <input #emailField pInputText id="email" type="email" required />
+    <input #emailField
+           id="email" type="email"
+           pInputText required
+           [readOnly]="process()"/>
     <small id="email-help">Enter user email to login</small>
   </div>
   <div class="flex flex-col gap-2 py-8 text-right">
-    <p-button label="Login" [disabled]="!emailField.validity.valid || process"
+    <p-button label="Login"
+              [disabled]="!emailField.validity.valid || process()"
+              [loading]="process()"
               (click)="login(emailField.value || ''); emailField.value = ''"/>
   </div>
 </div>

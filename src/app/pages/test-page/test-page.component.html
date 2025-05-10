@@ -41,7 +41,7 @@
           <div class="b-message"
                [ngClass]="{ 'other' : item.author.id !== principal()?.accountId,
                             'own' : item.author.id === principal()?.accountId }">
-            <div class="b-message-content">
+            <div class="b-message-content" style="white-space: pre-line">
               {{ item.text }}
             </div>
           </div>
@@ -54,16 +54,16 @@
 
     <div class="bottom border border-surface">
       <p-inputgroup styleClass="border-none w-full">
-        <textarea  #messageField
-                   class="block border-none w-full"
-                   rows="1"
-                   pTextarea [autoResize]="true"></textarea>
+        <textarea #messageField
+                  class="block border-none w-full"
+                  rows="1"
+                  pTextarea [autoResize]="true"></textarea>
         <p-inputgroup-addon styleClass="border-none items-end">
           <p-button icon="pi pi-send"
                     variant="text"
                     rounded severity="info"
                     [disabled]="!messageField.validity.valid"
-                    (click)="sendMessage(messageField.value || ''); messageField.value = ''"/>
+                    (click)="sendMessage(messageField.value || ''); messageField.value = ''; messageField.style.height = 'auto'"/>
         </p-inputgroup-addon>
       </p-inputgroup>
     </div>
